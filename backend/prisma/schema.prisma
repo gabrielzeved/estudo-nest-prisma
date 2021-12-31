@@ -10,8 +10,38 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model Category {
+  id       Int        @id @default(autoincrement())
+  name     String
+  parentId Int?       @unique
+  parent   Category?  @relation("CategoryHierachy", fields: [parentId], references: [id])
+  children Category[] @relation("CategoryHierachy")
+  products Product[]
+}
+
+model Product {
+  id         Int       @id @default(autoincrement())
+  name       String
+  categoryId Int?
+  category   Category? @relation(fields: [categoryId], references: [id])
+  active     Boolean   @default(true)
+  isFilter   Boolean   @default(true)
+  skus       SKU[]
+}
+
+model SKU {
+  id        Int        @id @default(autoincrement())
+  name      String
+  stock     Int
+  productId Int
+  product   Product    @relation(fields: [productId], references: [id])
+  images    SKUImage[]
+}
+
+model SKUImage {
   id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+  url   String
+  alt   String?
+  skuId Int
+  sku   SKU     @relation(fields: [skuId], references: [id])
 }
