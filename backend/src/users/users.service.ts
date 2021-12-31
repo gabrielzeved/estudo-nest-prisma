@@ -2,28 +2,26 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class UsersService {
+	users: User[] = [];
 
-    users : User[] = []
+	all(): User[] {
+		return this.users;
+	}
 
-    all() : User[]{
-        return this.users;
-    }
+	one(id: string): User {
+		return this.users.find((user) => user.id === id);
+	}
 
-    one(id: string) : User{
-        return this.users.find((user) => user.id === id);
-    }
+	new(user: User) {
+		if (!this.exists(user.id)) {
+			this.users.push(user);
+			return user;
+		}
 
-    new(user: User){
-        if(!this.exists(user.id)){
-            this.users.push(user);
-            return user;
-        }
+		return null;
+	}
 
-        return null;
-    }
-
-    exists(id: string){
-        return this.users.some((user) => user.id === id);
-    }
-
+	exists(id: string) {
+		return this.users.some((user) => user.id === id);
+	}
 }
