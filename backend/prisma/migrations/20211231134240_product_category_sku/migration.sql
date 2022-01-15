@@ -13,7 +13,6 @@ CREATE TABLE `Category` (
     `name` VARCHAR(191) NOT NULL,
     `parentId` INTEGER NULL,
 
-    UNIQUE INDEX `Category_parentId_key`(`parentId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
